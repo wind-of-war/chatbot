@@ -19,6 +19,16 @@ class IntentRouter:
             return "supplier_sop"
         if any(k in text for k in ("nhiet do kho", "temperature", "excursion", "mapping")):
             return "temperature_control"
+        if any(k in text for k in ("alcoa", "data integrity", "du lieu", "truy vet du lieu")):
+            return "data_integrity"
+        if any(k in text for k in ("deviation", "sai lech", "capa", "root cause")):
+            return "deviation_capa"
+        if any(k in text for k in ("change control", "kiem soat thay doi", "thay doi")):
+            return "change_control"
+        if any(k in text for k in ("validation protocol", "tham dinh", "de cuong tham dinh")):
+            return "validation"
+        if any(k in text for k in ("hold time", "ton tru ban dau", "initial hold time")):
+            return "hold_time"
         if any(k in text for k in ("vi sinh", "clean room", "cleanroom", "grade", "particle", "cfu")):
             return "cleanroom_general"
         return "general"

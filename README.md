@@ -58,6 +58,7 @@ Pipeline:
 - Hybrid retrieval and reranking score phrase match, term coverage, and cleanroom/regulatory keywords.
 - Citations can include `page_start/page_end` so Telegram replies can show page-aware sources.
 - If internal evidence is weak, the bot can optionally fall back to trusted web search results from regulatory/public domains.
+- A lightweight FAQ fast lane can answer common GMP/GDP questions before RAG/LLM for lower latency.
 
 7. Subscription and quota controls
 - Free plan can be limited per day (`FREE_PLAN_DAILY_LIMIT`, current deployment uses `5`).
@@ -157,6 +158,18 @@ powershell -ExecutionPolicy Bypass -File scripts/update_regulatory_corpus.ps1
 Notes:
 - The updater defaults to `FULL_REBUILD=true` for consistency (rebuild processed chunks + embeddings).
 - For licensed content (e.g. full British Pharmacopoeia, full Dược điển Việt Nam), upload only legally obtained files.
+
+9. Build FAQ candidates from real user questions:
+
+```bash
+python pipelines/faq_generation/generate_faq.py
+```
+
+Outputs:
+- `data/processed/faq_generated.md`
+- `data/processed/faq_candidates_from_usage.json`
+
+Use `data/sources/faq_seed.json` to curate the highest-value low-latency answers for the fast lane.
 
 ## Telegram on VPS
 

@@ -77,6 +77,29 @@ def _try_fast_lane(question: str) -> dict | None:
             "mode": "faq",
         }
 
+    template_answers = {
+        "data_integrity": "Dap an: Data integrity trong GMP/GxP dat trong tam vao ALCOA+, kiem soat audit trail, quyen truy cap, xem xet sua-doi, backup/restore va bao dam du lieu day du, nhat quan, san co khi can truy xuat.",
+        "deviation_capa": "Dap an: Quy trinh deviation/CAPA can gom ghi nhan sai lech, phan loai muc do, danh gia tac dong san pham/chat luong, dieu tra nguyen nhan goc, hanh dong CAPA, phe duyet va theo doi hieu luc.",
+        "change_control": "Dap an: Change control can danh gia truoc tac dong GMP/validation/regulatory, duoc phe duyet truoc khi trien khai, cap nhat tai lieu-dao tao, va xac nhan hieu luc sau thay doi.",
+        "validation": "Dap an: Validation protocol thuong gom muc tieu, pham vi, trach nhiem, phuong phap, tieu chi chap nhan, mau bieu ghi nhan, xu ly sai lech, ket luan va phe duyet.",
+        "hold_time": "Dap an: Hold time phai duoc thiet lap dua tren du lieu tham dinh/on dinh va dac thu quy trinh-san pham, khong nen tra loi bang mot moc co dinh neu chua co bang chung.",
+    }
+    if intent in template_answers:
+        answer = template_answers[intent]
+        return {
+            "answer": answer,
+            "citation": {
+                "source": "internal_template",
+                "section": intent.replace("_", " ").title(),
+                "page_start": None,
+                "page_end": None,
+                "snippet": answer[:220],
+            },
+            "confidence": 0.9,
+            "intent": intent,
+            "mode": "template",
+        }
+
     if intent == "cleanroom_grade_limit":
         from core.agents.response_agent.agent import ResponseAgent
 

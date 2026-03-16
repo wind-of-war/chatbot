@@ -22,6 +22,28 @@
     "section": "Cleanroom microbiology"
   },
   {
+    "id": "cleanroom_grade_a_micro",
+    "language": "vi",
+    "question_patterns": [
+      "tieu chuan vi sinh cap sach a",
+      "gioi han vi sinh cap sach a",
+      "cap sach a vi sinh"
+    ],
+    "answer": "Tieu chuan tham khao vi sinh cho cap sach A: Air sample <1 CFU/m3; settle plate <1 CFU/4h; contact plate <1 CFU/plate; glove print <1 CFU/glove.",
+    "section": "Cleanroom microbiology"
+  },
+  {
+    "id": "cleanroom_grade_d_micro",
+    "language": "vi",
+    "question_patterns": [
+      "tieu chuan vi sinh cap sach d",
+      "gioi han vi sinh cap sach d",
+      "cap sach d vi sinh"
+    ],
+    "answer": "Tieu chuan tham khao vi sinh cho cap sach D: Air sample 200 CFU/m3; settle plate 100 CFU/4h; contact plate 50 CFU/plate; glove print khong ap dung.",
+    "section": "Cleanroom microbiology"
+  },
+  {
     "id": "supplier_sop",
     "language": "vi",
     "question_patterns": [
@@ -42,5 +64,82 @@
     ],
     "answer": "Dap an: Quy trinh kiem soat nhiet do GDP/GSP can gom mapping, vi tri logger hop ly, nguong canh bao/hanh dong, xu ly excursion, dieu tra nguyen nhan goc, CAPA va bao cao dinh ky cho QA.",
     "section": "GDP temperature control"
+  },
+  {
+    "id": "data_integrity_alcoa",
+    "language": "vi",
+    "question_patterns": [
+      "alcoa+ la gi",
+      "data integrity alcoa",
+      "nguyen tac alcoa"
+    ],
+    "answer": "Dap an: ALCOA+ gom Attributable, Legible, Contemporaneous, Original, Accurate va bo sung Complete, Consistent, Enduring, Available. Day la nen tang data integrity trong GMP/GxP.",
+    "section": "Data integrity"
+  },
+  {
+    "id": "deviation_capa",
+    "language": "vi",
+    "question_patterns": [
+      "deviation va capa",
+      "xu ly sai lech capa",
+      "quy trinh sai lech capa"
+    ],
+    "answer": "Dap an: Quy trinh deviation/CAPA can gom ghi nhan sai lech, danh gia muc do anh huong, dieu tra nguyen nhan goc, de xuat hanh dong khac phuc-phong ngua, phe duyet, theo doi hieu luc va luu vet day du.",
+    "section": "Deviation and CAPA"
+  },
+  {
+    "id": "change_control",
+    "language": "vi",
+    "question_patterns": [
+      "change control la gi",
+      "quy trinh change control",
+      "kiem soat thay doi"
+    ],
+    "answer": "Dap an: Change control can xac dinh de xuat thay doi, danh gia tac dong GMP/validation/regulatory, phe duyet truoc khi thuc hien, cap nhat tai lieu-dao tao va danh gia hieu luc sau thay doi.",
+    "section": "Change control"
+  },
+  {
+    "id": "validation_protocol",
+    "language": "vi",
+    "question_patterns": [
+      "protocol tham dinh gom gi",
+      "validation protocol gom nhung gi",
+      "de cuong tham dinh"
+    ],
+    "answer": "Dap an: Validation protocol thuong gom muc tieu, pham vi, trach nhiem, tieu chi chap nhan, phuong phap, mau bieu ghi nhan, xu ly sai lech, ket luan va yeu cau phe duyet.",
+    "section": "Validation"
+  },
+  {
+    "id": "temperature_mapping",
+    "language": "vi",
+    "question_patterns": [
+      "temperature mapping la gi",
+      "mapping nhiet do kho",
+      "tham dinh nhiet do kho"
+    ],
+    "answer": "Dap an: Temperature mapping can xac dinh worst-case locations, bo tri logger hop ly, thoi gian/chu ky do du lieu, tieu chi chap nhan, xu ly excursion va danh gia tinh dong deu nhiet do cua khu vuc bao quan.",
+    "section": "Temperature mapping"
+  },
+  {
+    "id": "initial_hold_time",
+    "language": "vi",
+    "question_patterns": [
+      "hold time la gi",
+      "thoi gian ton tru ban dau",
+      "initial hold time"
+    ],
+    "answer": "Dap an: Hold time phai duoc thiet lap va bao ve bang du lieu tham dinh/chung minh tinh on dinh phu hop, khong nen ap dat mot con so co dinh neu khong co bang chung quy trinh va san pham cu the.",
+    "section": "Hold time"
+  },
+  {
+    "id": "cleaning_validation",
+    "language": "vi",
+    "question_patterns": [
+      "cleaning validation gom gi",
+      "tham dinh ve sinh gom gi",
+      "gioi han residue cleaning validation"
+    ],
+    "answer": "Dap an: Cleaning validation can xac dinh worst-case, gioi han chap nhan residue/vi sinh/chat tay rua, vi tri lay mau, phuong phap swab-rinse, so lan lap lai va ly do khoa hoc cho cach tinh gioi han.",
+    "section": "Cleaning validation"
   }
 ]
