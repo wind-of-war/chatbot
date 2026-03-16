@@ -232,6 +232,30 @@ class ResponseAgent:
             return f"Dap an: {self._translate_en_to_vi_basic(intent_sentence)}"
         return "Khong tim thay cau tra loi cu the theo cau hoi."
 
+    def _fast_answer(self, question: str, language: str, docs: list[dict]) -> str | None:
+        if language != "vi":
+            return None
+        intent = self._intent_from_query(question, language)
+        if intent == "cleanroom_grade_limit":
+            grade = self._extract_cleanroom_grade(question) or "C"
+            return self._grade_limit_answer_vi(grade)
+        if intent in {"cleanroom_grade_b_limit", "supplier_sop"}:
+            return self._fallback_answer(question=question, language=language, docs=docs)
+        if intent in {"temperature", "cleanroom"} and docs:
+            candidate = self._fallback_answer(question=question, language=language, docs=docs)
+            low = candidate.lower()
+            if not any(
+                token in low
+                for token in (
+                    "khong tim thay",
+                    "khong du ngu canh",
+                    "chua du bang chung",
+                    "insufficient context",
+                )
+            ):
+                return candidate
+        return None
+
     @staticmethod
     def _english_word_count(text: str) -> int:
         words = re.findall(r"[A-Za-z]{3,}", text or "")
@@ -311,8 +335,8 @@ class ResponseAgent:
             ]
             return state
 
-        answer = None
-        if docs:
+        answer = self._fast_answer(question=question, language=language, docs=docs)
+        if not answer and docs:
             answer = self.llm.generate(question=question, docs=docs, language=language)
 
         if not answer:

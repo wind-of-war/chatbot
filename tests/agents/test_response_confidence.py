@@ -17,3 +17,10 @@ def test_confidence_higher_with_overlap_and_preferred_source():
     ]
     score = agent._estimate_confidence("initial hold time sterile products", "en", docs)
     assert score >= 0.6
+
+
+def test_fast_answer_for_grade_c_skips_llm_needed_pattern():
+    agent = ResponseAgent()
+    answer = agent._fast_answer("tieu chuan vi sinh cap sach C", "vi", docs=[])
+    assert answer is not None
+    assert "cap sach C" in answer

@@ -57,6 +57,7 @@ Pipeline:
 - Query expansion keeps the original VI/EN question and adds domain-aware variants.
 - Hybrid retrieval and reranking score phrase match, term coverage, and cleanroom/regulatory keywords.
 - Citations can include `page_start/page_end` so Telegram replies can show page-aware sources.
+- If internal evidence is weak, the bot can optionally fall back to trusted web search results from regulatory/public domains.
 
 7. Subscription and quota controls
 - Free plan can be limited per day (`FREE_PLAN_DAILY_LIMIT`, current deployment uses `5`).
@@ -170,6 +171,7 @@ Set these env vars in `.env`:
 - `FREE_PLAN_DAILY_LIMIT`, `PRO_PLAN_DAILY_LIMIT`
 - `TELEGRAM_STARS_ENABLED`, `TELEGRAM_PRO_PRICE_STARS`
 - `TELEGRAM_ADMIN_USER_IDS`
+- `INTERNET_FALLBACK_ENABLED`, `INTERNET_FALLBACK_DOMAINS`
 
 Then:
 

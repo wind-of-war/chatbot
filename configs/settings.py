@@ -35,6 +35,13 @@ class Settings(BaseSettings):
     ollama_num_ctx: int = 2048
     ollama_temperature: float = 0.1
     answer_cache_ttl_seconds: int = 3600
+    internet_fallback_enabled: bool = False
+    internet_fallback_timeout_seconds: int = 8
+    internet_fallback_max_results: int = 3
+    internet_fallback_min_confidence: float = 0.45
+    internet_fallback_domains: str = (
+        "who.int,ema.europa.eu,edqm.eu,gov.uk,fda.gov,ich.org,picscheme.org,ec.europa.eu,codexalimentarius.fao.org"
+    )
 
     admin_emails: str = "admin@example.com"
     telegram_admin_user_ids: str = ""
