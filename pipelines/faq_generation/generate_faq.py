@@ -4,6 +4,11 @@ import json
 import sqlite3
 from collections import Counter
 from pathlib import Path
+import sys
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 from core.utils.language_detection import detect_language
 from core.utils.query_translation import normalize_query_for_retrieval
