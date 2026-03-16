@@ -77,6 +77,9 @@ pip install -r requirements.txt
 docker compose -f infra/docker-compose.yml up --build
 ```
 
+GitHub repository:
+- `https://github.com/wind-of-war/chatbot`
+
 3. Run API locally:
 
 ```bash
@@ -206,6 +209,22 @@ sudo systemctl status gxp-telegram-bot --no-pager
 sudo journalctl -u gxp-api -f
 sudo journalctl -u gxp-telegram-bot -f
 ```
+
+3.1 Sync VPS code from GitHub:
+
+```bash
+chmod +x scripts/sync_from_github.sh
+./scripts/sync_from_github.sh
+```
+
+What it does:
+- `git fetch origin`
+- hard reset tracked files to `origin/main`
+- restart `gxp-api` and `gxp-telegram-bot`
+
+Notes:
+- Runtime files such as `.env`, `*.db`, logs, `data/raw`, `data/processed`, `data/embeddings`, and `data/qdrant_local` are intentionally excluded from Git sync.
+- Use this only on the VPS working tree dedicated to this bot.
 
 4. Monthly document auto-update (systemd timer):
 

@@ -187,3 +187,32 @@ sudo systemctl status gxp-docs-watch.path --no-pager
 sudo journalctl -u gxp-docs-watch.service -f
 tail -f /opt/gxp-ai-platform/logs/docs_update_watcher.log
 ```
+
+## 14) Đồng bộ code VPS với GitHub
+
+Repo đang dùng:
+
+```bash
+https://github.com/wind-of-war/chatbot
+```
+
+Trên VPS:
+
+```bash
+cd /opt/gxp-ai-platform
+chmod +x scripts/sync_from_github.sh
+./scripts/sync_from_github.sh
+```
+
+Script sẽ:
+- fetch code mới nhất từ `origin/main`
+- reset tracked files về đúng commit GitHub
+- restart `gxp-api` và `gxp-telegram-bot`
+
+Không ảnh hưởng:
+- `.env`
+- `gxp_platform.db`
+- `data/raw`
+- `data/processed`
+- `data/embeddings`
+- `data/qdrant_local`
