@@ -4,12 +4,16 @@ from apps.api.schemas import Citation
 from apps.api.services.usage_service import append_usage, estimate_cost, estimate_tokens
 from configs.settings import settings
 from core.services.cache.response_cache import ResponseCache
+from core.services.faq.faq_matcher import FAQMatcher
+from core.services.intent.intent_router import IntentRouter
 from core.services.web_search.internet_search_service import InternetSearchService
 from core.utils.language_detection import detect_language
 
 
 response_cache = ResponseCache()
 internet_search = InternetSearchService()
+faq_matcher = FAQMatcher()
+intent_router = IntentRouter()
 
 
 def _append_legal_disclaimer(answer: str, question: str) -> str:
@@ -28,11 +32,17 @@ def ask_question_for_user(db, user: User, question: str) -> dict:
         citations = cached.get("citations", [])
         confidence = float(cached.get("confidence", 0.0))
     else:
-        state = container.agent_graph.run(question)
-        state = _maybe_retry_with_internet(question=question, state=state)
-        answer = state.get("answer", "")
-        citations = [Citation(**c).model_dump() for c in state.get("citations", [])]
-        confidence = float(state.get("confidence", 0.0))
+        direct = _try_fast_lane(question=question)
+        if direct:
+            answer = _append_legal_disclaimer(answer=direct["answer"], question=question)
+            citations = [direct["citation"]]
+            confidence = float(direct["confidence"])
+        else:
+            state = container.agent_graph.run(question)
+            state = _maybe_retry_with_internet(question=question, state=state)
+            answer = state.get("answer", "")
+            citations = [Citation(**c).model_dump() for c in state.get("citations", [])]
+            confidence = float(state.get("confidence", 0.0))
         answer = _append_legal_disclaimer(answer=answer, question=question)
         response_cache.set(
             user_id=user.id,
@@ -53,6 +63,39 @@ def ask_question_for_user(db, user: User, question: str) -> dict:
         "confidence": confidence,
         "cached": bool(cached),
     }
+
+
+def _try_fast_lane(question: str) -> dict | None:
+    intent = intent_router.classify(question)
+    faq = faq_matcher.match(question)
+    if faq:
+        return {
+            "answer": faq["answer"],
+            "citation": faq["citation"],
+            "confidence": 0.96,
+            "intent": intent,
+            "mode": "faq",
+        }
+
+    if intent == "cleanroom_grade_limit":
+        from core.agents.response_agent.agent import ResponseAgent
+
+        grade = ResponseAgent._extract_cleanroom_grade(question) or "C"
+        answer = ResponseAgent._grade_limit_answer_vi(grade)
+        return {
+            "answer": answer,
+            "citation": {
+                "source": "internal_template",
+                "section": "Cleanroom microbiology",
+                "page_start": None,
+                "page_end": None,
+                "snippet": answer[:220],
+            },
+            "confidence": 0.97,
+            "intent": intent,
+            "mode": "template",
+        }
+    return None
 
 
 def _maybe_retry_with_internet(question: str, state: dict) -> dict:

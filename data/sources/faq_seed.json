@@ -1,0 +1,46 @@
+[
+  {
+    "id": "cleanroom_grade_c_micro",
+    "language": "vi",
+    "question_patterns": [
+      "tieu chuan vi sinh cap sach c",
+      "gioi han vi sinh cap sach c",
+      "cap sach c vi sinh"
+    ],
+    "answer": "Tieu chuan tham khao vi sinh cho cap sach C: Air sample 100 CFU/m3; settle plate 50 CFU/4h; contact plate 25 CFU/plate; glove print khong ap dung.",
+    "section": "Cleanroom microbiology"
+  },
+  {
+    "id": "cleanroom_grade_b_micro",
+    "language": "vi",
+    "question_patterns": [
+      "tieu chuan vi sinh cap sach b",
+      "gioi han vi sinh cap sach b",
+      "cap sach b vi sinh"
+    ],
+    "answer": "Tieu chuan tham khao vi sinh cho cap sach B: Air sample 10 CFU/m3; settle plate 5 CFU/4h; contact plate 5 CFU/plate; glove print 5 CFU/glove.",
+    "section": "Cleanroom microbiology"
+  },
+  {
+    "id": "supplier_sop",
+    "language": "vi",
+    "question_patterns": [
+      "sop danh gia nha cung cap",
+      "quy trinh danh gia nha cung cap",
+      "phe duyet nha cung cap"
+    ],
+    "answer": "Dap an: Nha cung cap can co SOP danh gia va phe duyet, gom tieu chi GMP/phap ly, danh gia rui ro, tai danh gia dinh ky, xu ly sai lech/CAPA, change control va luu vet theo ALCOA+.",
+    "section": "Supplier qualification"
+  },
+  {
+    "id": "gdp_temperature_control",
+    "language": "vi",
+    "question_patterns": [
+      "kiem soat nhiet do kho thuoc",
+      "gdp nhiet do kho",
+      "quy trinh nhiet do bao quan thuoc"
+    ],
+    "answer": "Dap an: Quy trinh kiem soat nhiet do GDP/GSP can gom mapping, vi tri logger hop ly, nguong canh bao/hanh dong, xu ly excursion, dieu tra nguyen nhan goc, CAPA va bao cao dinh ky cho QA.",
+    "section": "GDP temperature control"
+  }
+]
