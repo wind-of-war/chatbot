@@ -1,0 +1,10 @@
+[Unit]
+Description=Watch raw document folders and trigger auto-ingest/index
+
+[Path]
+PathModified=/opt/gxp-ai-platform/data/raw
+PathChanged=/opt/gxp-ai-platform/data/raw
+Unit=gxp-docs-watch.service
+
+[Install]
+WantedBy=multi-user.target

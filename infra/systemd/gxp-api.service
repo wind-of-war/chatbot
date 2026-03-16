@@ -1,0 +1,18 @@
+[Unit]
+Description=GxP AI Platform API (FastAPI/Uvicorn)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/opt/gxp-ai-platform
+EnvironmentFile=/opt/gxp-ai-platform/.env
+ExecStart=/opt/gxp-ai-platform/.venv/bin/python -m uvicorn apps.api.main:app --host 0.0.0.0 --port 8000
+Restart=always
+RestartSec=5
+TimeoutStopSec=20
+
+[Install]
+WantedBy=multi-user.target

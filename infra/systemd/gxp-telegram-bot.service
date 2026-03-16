@@ -1,0 +1,19 @@
+[Unit]
+Description=GxP Telegram Polling Bot
+After=network-online.target gxp-api.service
+Wants=network-online.target
+Requires=gxp-api.service
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/opt/gxp-ai-platform
+EnvironmentFile=/opt/gxp-ai-platform/.env
+ExecStart=/opt/gxp-ai-platform/.venv/bin/python -m apps.bot.telegram_polling
+Restart=always
+RestartSec=5
+TimeoutStopSec=20
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,17 @@
+[Unit]
+Description=GxP AI monthly regulatory documents update
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/opt/gxp-ai-platform
+Environment=PYTHONUNBUFFERED=1
+Environment=FULL_REBUILD=true
+TimeoutStartSec=infinity
+ExecStart=/bin/bash /opt/gxp-ai-platform/scripts/run_incremental_update.sh
+
+[Install]
+WantedBy=multi-user.target

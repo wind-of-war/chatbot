@@ -1,0 +1,12 @@
+[Unit]
+Description=GxP AI weekly safe cleanup
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/opt/gxp-ai-platform
+Environment=KEEP_USAGE_DAYS=90
+ExecStart=/bin/bash /opt/gxp-ai-platform/scripts/cleanup_weekly.sh

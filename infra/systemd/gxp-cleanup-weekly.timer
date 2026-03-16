@@ -1,0 +1,11 @@
+[Unit]
+Description=Run GxP AI safe cleanup weekly
+
+[Timer]
+OnCalendar=weekly
+Persistent=true
+RandomizedDelaySec=1200
+Unit=gxp-cleanup-weekly.service
+
+[Install]
+WantedBy=timers.target

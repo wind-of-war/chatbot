@@ -1,0 +1,14 @@
+[Unit]
+Description=GxP AI docs auto-update on raw data changes
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/opt/gxp-ai-platform
+Environment=PYTHONUNBUFFERED=1
+Environment=FULL_REBUILD=false
+TimeoutStartSec=infinity
+ExecStart=/bin/bash /opt/gxp-ai-platform/scripts/run_incremental_update.sh

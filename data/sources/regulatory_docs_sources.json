@@ -1,0 +1,104 @@
+{
+  "sources": [
+    {
+      "id": "eu_monographs_guide_2022",
+      "category": "eu_pharmacopoeia",
+      "filename": "ph_eur_technical_guide_monographs_8th_2022.pdf",
+      "url": "https://www.edqm.eu/documents/52006/66555/Technical%2Bguide%2Bfor%2Bthe%2Belaboration%2Bof%2Bmonographs%2C%2B8th%2BEdition%2B%282022%29.pdf/46b07f46-779d-687d-1455-74d8a9a515ee?download=true&t=1721905933812&version=3.3",
+      "enabled": true
+    },
+    {
+      "id": "eu_active_substances_guide_2023",
+      "category": "eu_pharmacopoeia",
+      "filename": "ph_eur_technical_guide_chemically_defined_active_substances_2023.pdf",
+      "url": "https://www.edqm.eu/documents/52006/66555/Technical%2BGuide%2Bfor%2Bthe%2Belaboration%2Bof%2Bmonographs%2Bon%2Bmedicinal%2Bproducts%2Bcontaining%2Bchemically%2Bdefined%2Bactive%2Bsubstances%2B%282023%29.pdf/6950fa2b-a75c-3969-b561-fbc7afc74cd4?download=true&t=1721905947046&version=3.4",
+      "enabled": true
+    },
+    {
+      "id": "eu_style_guide",
+      "category": "eu_pharmacopoeia",
+      "filename": "ph_eur_style_guide_new.pdf",
+      "url": "https://www.edqm.eu/documents/52006/66549/NEW%2BEuropean%2BPharmacopoeia%2BStyle%2BGuide%2B_%2BGuide%2Bde%2Br%C3%A9daction%2Bde%2Bla%2BPharmacop%C3%A9e%2BEurop%C3%A9enne.pdf/eb68c5fb-0b31-8075-bc25-3ab7cedabcaa?download=true&t=1736933115977&version=3.2",
+      "enabled": true
+    },
+    {
+      "id": "eu_vaccines_guide_2019",
+      "category": "eu_pharmacopoeia",
+      "filename": "ph_eur_vaccines_technical_guide_2019.pdf",
+      "url": "https://www.edqm.eu/documents/52006/66555/Technical%2BGuide%2Bfor%2Bthe%2Belaboration%2Bof%2Bmonographs%2Bon%2Bvaccines%2Band%2Bimmunosera%2Bfor%2Bhuman%2Buse%2B%282019%29.pdf/1f1a0380-6e92-e068-e0c7-223bf80a25a4?download=true&t=1700473546368&version=1.5",
+      "enabled": true
+    },
+    {
+      "id": "eu_herbal_guide_2023",
+      "category": "eu_pharmacopoeia",
+      "filename": "ph_eur_herbal_drugs_guide_2023.pdf",
+      "url": "https://www.edqm.eu/documents/52006/66555/NEW%2BGuide%2Bfor%2Bthe%2Belaboration%2Bof%2Bmonographs%2Bon%2Bherbal%2Bdrugs%2Band%2Bherbal%2Bdrug%2Bpreparations%2B%282023%29.pdf/bef3251e-fafc-581b-93ef-3c1a95e2793c?download=true&t=1700142105329&version=1.4",
+      "enabled": true
+    },
+    {
+      "id": "eu_homoeopathic_guide_2022",
+      "category": "eu_pharmacopoeia",
+      "filename": "ph_eur_homoeopathic_preparations_guide_2022.pdf",
+      "url": "https://www.edqm.eu/documents/52006/66555/NEW%2BGuide%2Bfor%2Bthe%2Belaboration%2Bof%2Bmonographs%2Bon%2Bhomoeopathic%2Bpreparations%2B%282022%29.pdf/ad6f18d8-07f7-dcfb-fdf2-8ed096bd0ff5?download=true&t=1700473230909&version=1.3",
+      "enabled": true
+    },
+    {
+      "id": "eu_covid_vaccine_supportive_2020",
+      "category": "eu_pharmacopoeia",
+      "filename": "ph_eur_covid_vaccine_supportive_texts_2020.pdf",
+      "url": "https://www.edqm.eu/documents/52006/277487/Free%2Baccess%2Bto%2Bsupportive%2Bpharmacopoeial%2Btexts%2Bin%2Bthe%2Bfield%2Bof%2Bvaccines%2Bfor%2Bhuman%2Buse%2Bduring%2Bthe%2Bcoronavirus%2Bdisease%2B%28COVID-19%29%2Bpandemic%2BUpdated%2Bpackage%2B-%2BOctober%2B2020.pdf/72875b16-432e-3854-36ca-51422e221d68",
+      "enabled": true
+    },
+    {
+      "id": "uk_mhra_gxp_data_integrity",
+      "category": "uk_regulatory",
+      "filename": "uk_mhra_gxp_data_integrity_guide_2018.pdf",
+      "url": "https://assets.publishing.service.gov.uk/media/5aa2b9ede5274a3e391e37f3/MHRA_GxP_data_integrity_guide_March_edited_Final.pdf",
+      "enabled": true
+    },
+    {
+      "id": "uk_mhra_guidance_note_5",
+      "category": "uk_regulatory",
+      "filename": "uk_mhra_guidance_note_5_manufacturers_licence.pdf",
+      "url": "https://assets.publishing.service.gov.uk/media/67ea77f39110281dc1056246/Guidance_Note_5_Notes_for_applicants_and_holders_of_a_Manufacturers_Licence__1_.pdf",
+      "enabled": true
+    },
+    {
+      "id": "ich_q7_guideline",
+      "category": "drug_standards",
+      "filename": "ich_q7_guideline.pdf",
+      "url": "https://database.ich.org/sites/default/files/Q7_Guideline.pdf",
+      "enabled": true
+    },
+    {
+      "id": "ich_q7_qa_document",
+      "category": "drug_standards",
+      "filename": "ich_q7_questions_and_answers.pdf",
+      "url": "https://database.ich.org/sites/default/files/Q7%20Q%26As%20Questions%20%26%20Answers.pdf",
+      "enabled": true
+    },
+    {
+      "id": "codex_general_principles_food_hygiene",
+      "category": "food_standards",
+      "filename": "codex_cxc_1_1969_general_principles_of_food_hygiene.pdf",
+      "url": "https://www.fao.org/fao-who-codexalimentarius/sh-proxy/en/?lnk=1&url=https%253A%252F%252Fworkspace.fao.org%252Fsites%252Fcodex%252FStandards%252FCXC%2B1-1969%252FCXC_001e.pdf",
+      "enabled": true
+    },
+    {
+      "id": "uk_british_pharmacopoeia_full_text",
+      "category": "uk_pharmacopoeia_manual",
+      "filename": "README_manual_upload.txt",
+      "manual_only": true,
+      "enabled": true,
+      "notes": "British Pharmacopoeia full monographs are licensed content. Upload legally obtained files into data/raw/uk_pharmacopoeia_manual."
+    },
+    {
+      "id": "vietnam_pharmacopoeia_full_text",
+      "category": "vn_pharmacopoeia_manual",
+      "filename": "README_manual_upload.txt",
+      "manual_only": true,
+      "enabled": true,
+      "notes": "Dược điển Việt Nam full text should be added from licensed/internal source into data/raw/vn_pharmacopoeia_manual."
+    }
+  ]
+}

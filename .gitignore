@@ -1,0 +1,24 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+.env
+.tmp.vps.env
+*.db
+*.sqlite
+*.log
+api.out.log
+api.err.log
+telegram-bot.out.log
+telegram-bot.err.log
+
+# Data artifacts
+data/raw/*
+data/processed/*
+data/embeddings/*
+data/qdrant_local/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/embeddings/.gitkeep
+!data/sources/
+!data/sources/**

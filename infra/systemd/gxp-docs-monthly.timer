@@ -1,0 +1,11 @@
+[Unit]
+Description=Run GxP regulatory documents updater monthly
+
+[Timer]
+OnCalendar=monthly
+Persistent=true
+RandomizedDelaySec=1800
+Unit=gxp-docs-monthly.service
+
+[Install]
+WantedBy=timers.target
