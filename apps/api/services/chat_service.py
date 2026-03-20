@@ -1,3 +1,5 @@
+import time
+
 from apps.api.dependencies.container import container
 from apps.api.models import User
 from apps.api.schemas import Citation
@@ -6,6 +8,7 @@ from configs.settings import settings
 from core.services.cache.response_cache import ResponseCache
 from core.services.faq.faq_matcher import FAQMatcher
 from core.services.intent.intent_router import IntentRouter
+from core.services.monitoring.answer_review_log import append_answer_review_event
 from core.services.web_search.internet_search_service import InternetSearchService
 from core.utils.language_detection import detect_language
 
@@ -26,28 +29,41 @@ def _append_legal_disclaimer(answer: str, question: str) -> str:
 
 
 def ask_question_for_user(db, user: User, question: str) -> dict:
+    started_at = time.perf_counter()
     cached = response_cache.get(user_id=user.id, query=question)
     if cached:
         answer = cached.get("answer", "")
         citations = cached.get("citations", [])
         confidence = float(cached.get("confidence", 0.0))
+        answer_mode = cached.get("answer_mode", "cache")
+        web_fallback_used = bool(cached.get("web_fallback_used", False))
     else:
         direct = _try_fast_lane(question=question)
         if direct:
             answer = _append_legal_disclaimer(answer=direct["answer"], question=question)
             citations = [direct["citation"]]
             confidence = float(direct["confidence"])
+            answer_mode = direct["mode"]
+            web_fallback_used = False
         else:
             state = container.agent_graph.run(question)
             state = _maybe_retry_with_internet(question=question, state=state)
             answer = state.get("answer", "")
             citations = [Citation(**c).model_dump() for c in state.get("citations", [])]
             confidence = float(state.get("confidence", 0.0))
+            answer_mode = "web_fallback" if state.get("web_fallback_used") else "rag"
+            web_fallback_used = bool(state.get("web_fallback_used", False))
         answer = _append_legal_disclaimer(answer=answer, question=question)
         response_cache.set(
             user_id=user.id,
             query=question,
-            value={"answer": answer, "citations": citations, "confidence": confidence},
+            value={
+                "answer": answer,
+                "citations": citations,
+                "confidence": confidence,
+                "answer_mode": answer_mode,
+                "web_fallback_used": web_fallback_used,
+            },
         )
     if cached:
         answer = _append_legal_disclaimer(answer=answer, question=question)
@@ -55,6 +71,17 @@ def ask_question_for_user(db, user: User, question: str) -> dict:
     tokens = estimate_tokens(question, answer)
     cost = estimate_cost(tokens)
     append_usage(db=db, user_id=user.id, query=question, tokens=tokens, cost=cost)
+    elapsed_seconds = round(time.perf_counter() - started_at, 3)
+    _log_review_candidate(
+        question=question,
+        answer=answer,
+        confidence=confidence,
+        citations=citations,
+        elapsed_seconds=elapsed_seconds,
+        cached=bool(cached),
+        answer_mode=answer_mode,
+        web_fallback_used=web_fallback_used,
+    )
 
     return {
         "answer": answer,
@@ -62,6 +89,9 @@ def ask_question_for_user(db, user: User, question: str) -> dict:
         "citations": citations,
         "confidence": confidence,
         "cached": bool(cached),
+        "elapsed_seconds": elapsed_seconds,
+        "answer_mode": answer_mode,
+        "web_fallback_used": web_fallback_used,
     }
 
 
@@ -119,6 +149,39 @@ def _try_fast_lane(question: str) -> dict | None:
             "mode": "template",
         }
     return None
+
+
+def _log_review_candidate(
+    question: str,
+    answer: str,
+    confidence: float,
+    citations: list[dict],
+    elapsed_seconds: float,
+    cached: bool,
+    answer_mode: str,
+    web_fallback_used: bool,
+) -> None:
+    if cached:
+        return
+    if (
+        elapsed_seconds < settings.answer_review_slow_seconds
+        and confidence >= settings.answer_review_low_confidence
+        and not web_fallback_used
+    ):
+        return
+    append_answer_review_event(
+        {
+            "question": question,
+            "answer_preview": answer[:280],
+            "confidence": confidence,
+            "elapsed_seconds": elapsed_seconds,
+            "cached": cached,
+            "answer_mode": answer_mode,
+            "web_fallback_used": web_fallback_used,
+            "citations_count": len(citations or []),
+            "sources": [item.get("source") for item in (citations or [])[:5]],
+        }
+    )
 
 
 def _maybe_retry_with_internet(question: str, state: dict) -> dict:

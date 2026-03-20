@@ -171,6 +171,13 @@ Outputs:
 
 Use `data/sources/faq_seed.json` to curate the highest-value low-latency answers for the fast lane.
 
+10. Review slow or low-confidence answers:
+
+- Review log file: `logs/answer_review.jsonl`
+- Admin endpoint: `GET /management/answers/review`
+
+This feed captures non-cached answers that are slow, low-confidence, or required web fallback so they can be promoted into FAQ seeds or templates.
+
 ## Telegram on VPS
 
 Set these env vars in `.env`:

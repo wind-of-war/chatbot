@@ -42,6 +42,9 @@ class Settings(BaseSettings):
     internet_fallback_domains: str = (
         "who.int,ema.europa.eu,edqm.eu,gov.uk,fda.gov,ich.org,picscheme.org,ec.europa.eu,codexalimentarius.fao.org"
     )
+    answer_review_log_path: str = "logs/answer_review.jsonl"
+    answer_review_slow_seconds: float = 12.0
+    answer_review_low_confidence: float = 0.55
 
     admin_emails: str = "admin@example.com"
     telegram_admin_user_ids: str = ""

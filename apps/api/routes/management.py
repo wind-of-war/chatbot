@@ -13,6 +13,7 @@ from apps.api.services.auth_service import require_admin
 from apps.worker.tasks import RETRY_POLICY
 from configs.settings import settings
 from core.runtime.rag_runtime import rag_runtime_config
+from core.services.monitoring.answer_review_log import load_answer_review_events
 from core.services.vector_store.qdrant_service import QdrantService
 
 
@@ -102,3 +103,13 @@ def get_jobs_policy():
         retry_jitter=bool(RETRY_POLICY.get("retry_jitter", False)),
         max_retries=int(retry_kwargs.get("max_retries", 0)),
     )
+
+
+@router.get("/answers/review")
+def get_answer_review_feed(limit: int = 50):
+    safe_limit = max(1, min(limit, 200))
+    return {
+        "items": load_answer_review_events(limit=safe_limit),
+        "slow_threshold_seconds": settings.answer_review_slow_seconds,
+        "low_confidence_threshold": settings.answer_review_low_confidence,
+    }
