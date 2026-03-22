@@ -23,4 +23,5 @@ data/qdrant_local/*
 !data/sources/
 !data/sources/**
 data/sources/faq_seed_review_queue.json
+data/processed/mini_agent_training_report.json
 scripts/tmp_*.py

@@ -199,6 +199,27 @@ Outputs:
 - `data/processed/faq_proposals_daily.md`
 - `data/sources/faq_seed_review_queue.json` (review queue; curated manually into `faq_seed.json`)
 
+12. Mini training agent (daily self-evaluation run):
+
+Run once manually:
+
+```bash
+python scripts/mini_training_agent.py --limit 20
+```
+
+Install daily timer on VPS:
+
+```bash
+chmod +x scripts/install_mini_training_agent_timer.sh scripts/run_mini_training_agent.sh
+./scripts/install_mini_training_agent_timer.sh
+```
+
+Outputs:
+- `data/processed/mini_agent_training_report.json`
+- `logs/mini_training_agent.log`
+
+This mini agent does not fine-tune the model directly. It stress-tests high-priority questions and continuously feeds optimization loops (FAQ/template/retrieval tuning).
+
 ## Telegram on VPS
 
 Set these env vars in `.env`:

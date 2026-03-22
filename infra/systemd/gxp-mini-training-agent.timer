@@ -1,0 +1,11 @@
+[Unit]
+Description=Run GxP Mini Training Agent daily
+
+[Timer]
+OnCalendar=*-*-* 01:00:00 UTC
+Persistent=true
+Unit=gxp-mini-training-agent.service
+
+[Install]
+WantedBy=timers.target
+

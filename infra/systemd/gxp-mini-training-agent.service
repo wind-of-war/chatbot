@@ -1,0 +1,14 @@
+[Unit]
+Description=GxP Mini Training Agent Job
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/opt/gxp-ai-platform
+EnvironmentFile=/opt/gxp-ai-platform/.env
+ExecStart=/opt/gxp-ai-platform/scripts/run_mini_training_agent.sh
+Nice=10
+
