@@ -16,6 +16,7 @@ from apps.api.models import User
 from apps.api.services.chat_service import ask_question_for_user
 from configs.settings import settings
 from core.services.intent.intent_router import IntentRouter
+from core.utils.query_translation import normalize_query_for_retrieval
 
 
 INTENT_PROMPTS = {
@@ -167,12 +168,84 @@ def run_training_once(
     return payload
 
 
+def _load_queue_items(path: Path) -> list[dict]:
+    if not path.exists():
+        return []
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return []
+    return data if isinstance(data, list) else []
+
+
+def append_weak_items_to_review_queue(
+    payload: dict,
+    queue_path: Path,
+    slow_threshold: float,
+    low_conf_threshold: float,
+) -> int:
+    existing = _load_queue_items(queue_path)
+    normalized_existing = {
+        (item.get("normalized_question") or "").strip().lower()
+        for item in existing
+        if isinstance(item, dict)
+    }
+    added = 0
+    router = IntentRouter()
+
+    for item in payload.get("items", []):
+        question = (item.get("question") or "").strip()
+        if not question:
+            continue
+        weak = (
+            float(item.get("confidence", 1.0)) < low_conf_threshold
+            or float(item.get("elapsed_seconds", 0.0)) >= slow_threshold
+            or bool(item.get("web_fallback_used", False))
+        )
+        if not weak:
+            continue
+
+        language = "vi" if any(c in question for c in "ăâđêôơưÁÀẢÃẠáàảãạ") else "en"
+        normalized = normalize_query_for_retrieval(question, language).lower()
+        if normalized in normalized_existing:
+            continue
+
+        existing.append(
+            {
+                "question": question,
+                "normalized_question": normalized,
+                "language": language,
+                "intent": router.classify(question),
+                "frequency": 1,
+                "priority_score": round(
+                    max(
+                        (slow_threshold and float(item.get("elapsed_seconds", 0.0)) / max(1.0, slow_threshold)),
+                        (low_conf_threshold and (1.0 - float(item.get("confidence", 1.0)) / max(0.01, low_conf_threshold))),
+                    ),
+                    3,
+                ),
+                "suggested_section": "Mini training weak cases",
+                "suggested_answer": "",
+                "suggested_patterns": [normalized],
+            }
+        )
+        normalized_existing.add(normalized)
+        added += 1
+
+    queue_path.parent.mkdir(parents=True, exist_ok=True)
+    queue_path.write_text(json.dumps(existing, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return added
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Mini training agent: asks bot selected questions and records outcomes.")
     parser.add_argument("--admin-user-id", type=int, default=0)
     parser.add_argument("--queue-path", default="data/sources/faq_seed_review_queue.json")
     parser.add_argument("--output-path", default="data/processed/mini_agent_training_report.json")
     parser.add_argument("--limit", type=int, default=20)
+    parser.add_argument("--append-weak-to-queue", action="store_true")
+    parser.add_argument("--slow-threshold", type=float, default=12.0)
+    parser.add_argument("--low-confidence-threshold", type=float, default=0.55)
     args = parser.parse_args()
 
     admin_user_id = args.admin_user_id or _parse_admin_user_id()
@@ -185,6 +258,15 @@ def main() -> int:
         output_path=Path(args.output_path),
         limit=max(1, args.limit),
     )
+    if args.append_weak_to_queue:
+        added = append_weak_items_to_review_queue(
+            payload=payload,
+            queue_path=Path(args.queue_path),
+            slow_threshold=float(args.slow_threshold),
+            low_conf_threshold=float(args.low_confidence_threshold),
+        )
+        payload["summary"]["review_queue_added"] = added
+        Path(args.output_path).write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(payload["summary"], ensure_ascii=False))
     return 0
 

@@ -217,8 +217,12 @@ chmod +x scripts/install_mini_training_agent_timer.sh scripts/run_mini_training_
 Outputs:
 - `data/processed/mini_agent_training_report.json`
 - `logs/mini_training_agent.log`
+- Weak-case auto append to `data/sources/faq_seed_review_queue.json`
 
 This mini agent does not fine-tune the model directly. It stress-tests high-priority questions and continuously feeds optimization loops (FAQ/template/retrieval tuning).
+
+Admin endpoint:
+- `GET /management/answers/training-report`
 
 ## Telegram on VPS
 

@@ -17,6 +17,7 @@ from configs.settings import settings
 from core.runtime.rag_runtime import rag_runtime_config
 from core.services.intent.intent_router import IntentRouter
 from core.services.monitoring.answer_review_log import load_answer_review_events
+from core.services.monitoring.training_report import load_mini_training_report
 from core.services.vector_store.qdrant_service import QdrantService
 
 
@@ -149,4 +150,14 @@ def get_answer_review_summary(limit: int = 500):
         "answer_modes": mode_counts.most_common(10),
         "slow_threshold_seconds": settings.answer_review_slow_seconds,
         "low_confidence_threshold": settings.answer_review_low_confidence,
+    }
+
+
+@router.get("/answers/training-report")
+def get_mini_training_report(limit: int = 50):
+    safe_limit = max(1, min(limit, 500))
+    payload = load_mini_training_report()
+    return {
+        "summary": payload.get("summary"),
+        "items": (payload.get("items") or [])[:safe_limit],
     }
