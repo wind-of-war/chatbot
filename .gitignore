@@ -22,4 +22,5 @@ data/qdrant_local/*
 !data/embeddings/.gitkeep
 !data/sources/
 !data/sources/**
+data/sources/faq_seed_review_queue.json
 scripts/tmp_*.py

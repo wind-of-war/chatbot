@@ -1,0 +1,11 @@
+[Unit]
+Description=Run GxP FAQ review proposal daily
+
+[Timer]
+OnCalendar=*-*-* 00:30:00 UTC
+Persistent=true
+Unit=gxp-faq-review-daily.service
+
+[Install]
+WantedBy=timers.target
+

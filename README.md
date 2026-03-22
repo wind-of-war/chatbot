@@ -179,6 +179,26 @@ Use `data/sources/faq_seed.json` to curate the highest-value low-latency answers
 
 This feed captures non-cached answers that are slow, low-confidence, or required web fallback so they can be promoted into FAQ seeds or templates.
 
+11. Daily auto-proposals for FAQ (review-safe queue):
+
+Build once manually:
+
+```bash
+python scripts/build_faq_proposals.py --append-review-queue --top-k 10
+```
+
+Install daily timer on VPS:
+
+```bash
+chmod +x scripts/install_faq_review_timer.sh scripts/run_daily_faq_review.sh
+./scripts/install_faq_review_timer.sh
+```
+
+Outputs:
+- `data/processed/faq_proposals_daily.json`
+- `data/processed/faq_proposals_daily.md`
+- `data/sources/faq_seed_review_queue.json` (review queue; curated manually into `faq_seed.json`)
+
 ## Telegram on VPS
 
 Set these env vars in `.env`:

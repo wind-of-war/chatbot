@@ -1,0 +1,14 @@
+[Unit]
+Description=GxP Daily FAQ Review Proposal Job
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/opt/gxp-ai-platform
+EnvironmentFile=/opt/gxp-ai-platform/.env
+ExecStart=/opt/gxp-ai-platform/scripts/run_daily_faq_review.sh
+Nice=10
+
