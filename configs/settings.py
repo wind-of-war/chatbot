@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = 30
 
     default_rate_limit_per_minute: int = 10
+    test_mode_unlimited_questions: bool = False
     free_plan_daily_limit: int = 5
     pro_plan_daily_limit: int = 300
     team_plan_daily_limit: int = 3000

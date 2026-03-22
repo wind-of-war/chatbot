@@ -175,6 +175,7 @@ Use `data/sources/faq_seed.json` to curate the highest-value low-latency answers
 
 - Review log file: `logs/answer_review.jsonl`
 - Admin endpoint: `GET /management/answers/review`
+- Summary endpoint: `GET /management/answers/review/summary`
 
 This feed captures non-cached answers that are slow, low-confidence, or required web fallback so they can be promoted into FAQ seeds or templates.
 
@@ -189,6 +190,7 @@ Set these env vars in `.env`:
 - `OPENAI_MODEL` (default: `gpt-4o-mini`)
 - `OLLAMA_ENABLED` / `OLLAMA_MODEL` (current VPS deployment uses local Ollama with `qwen2.5:3b`)
 - `FREE_PLAN_DAILY_LIMIT`, `PRO_PLAN_DAILY_LIMIT`
+- `TEST_MODE_UNLIMITED_QUESTIONS` (`true` to bypass quota/rate-limit for test)
 - `TELEGRAM_STARS_ENABLED`, `TELEGRAM_PRO_PRICE_STARS`
 - `TELEGRAM_ADMIN_USER_IDS`
 - `INTERNET_FALLBACK_ENABLED`, `INTERNET_FALLBACK_DOMAINS`

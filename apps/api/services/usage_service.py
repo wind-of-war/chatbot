@@ -101,6 +101,8 @@ def ensure_user_plan_status(db: Session, user: User) -> str:
 
 
 def rate_limit_guard(db: Session, user: User) -> None:
+    if settings.test_mode_unlimited_questions:
+        return
     if user.role == "admin" or user.id in _admin_user_id_set():
         return
 
@@ -111,6 +113,8 @@ def rate_limit_guard(db: Session, user: User) -> None:
 
 
 def daily_quota_guard(db: Session, user: User) -> None:
+    if settings.test_mode_unlimited_questions:
+        return
     if user.role == "admin" or user.id in _admin_user_id_set():
         return
 

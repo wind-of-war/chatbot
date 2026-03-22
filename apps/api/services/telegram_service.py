@@ -69,6 +69,13 @@ def get_or_create_user_for_telegram(db: Session, telegram_user_id: int, telegram
 
 
 def plan_text_for_user(db: Session, user: User) -> str:
+    if settings.test_mode_unlimited_questions:
+        return (
+            "Test mode is enabled.\n"
+            "- Unlimited questions\n"
+            "- Quota/rate-limit guards are bypassed for testing"
+        )
+
     plan = ensure_user_plan_status(db, user)
     active = get_active_subscription(db, user.id)
     expiry_txt = ""
@@ -86,6 +93,8 @@ def plan_text_for_user(db: Session, user: User) -> str:
 
 
 def quota_reached_text() -> str:
+    if settings.test_mode_unlimited_questions:
+        return "Test mode is enabled: unlimited questions."
     return (
         f"Ban da het luot Free ({settings.free_plan_daily_limit} cau/ngay).\n"
         f"Nang cap Pro ${PRO_PRICE_USD}/thang de tiep tuc.\n"

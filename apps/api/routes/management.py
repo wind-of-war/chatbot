@@ -1,4 +1,6 @@
-﻿from fastapi import APIRouter, Depends
+from collections import Counter
+
+from fastapi import APIRouter, Depends
 
 from apps.api.dependencies.container import container
 from apps.api.schemas import (
@@ -13,11 +15,13 @@ from apps.api.services.auth_service import require_admin
 from apps.worker.tasks import RETRY_POLICY
 from configs.settings import settings
 from core.runtime.rag_runtime import rag_runtime_config
+from core.services.intent.intent_router import IntentRouter
 from core.services.monitoring.answer_review_log import load_answer_review_events
 from core.services.vector_store.qdrant_service import QdrantService
 
 
 router = APIRouter(prefix="/management", tags=["management"], dependencies=[Depends(require_admin)])
+intent_router = IntentRouter()
 
 
 @router.get("/overview", response_model=ManagementOverview)
@@ -110,6 +114,39 @@ def get_answer_review_feed(limit: int = 50):
     safe_limit = max(1, min(limit, 200))
     return {
         "items": load_answer_review_events(limit=safe_limit),
+        "slow_threshold_seconds": settings.answer_review_slow_seconds,
+        "low_confidence_threshold": settings.answer_review_low_confidence,
+    }
+
+
+@router.get("/answers/review/summary")
+def get_answer_review_summary(limit: int = 500):
+    safe_limit = max(1, min(limit, 2000))
+    items = load_answer_review_events(limit=safe_limit)
+    intent_counts: Counter[str] = Counter()
+    mode_counts: Counter[str] = Counter()
+    slow = 0
+    low_conf = 0
+    web_fallback = 0
+
+    for item in items:
+        question = item.get("question", "")
+        intent_counts[intent_router.classify(question)] += 1
+        mode_counts[item.get("answer_mode", "unknown")] += 1
+        if float(item.get("elapsed_seconds", 0.0)) >= settings.answer_review_slow_seconds:
+            slow += 1
+        if float(item.get("confidence", 1.0)) < settings.answer_review_low_confidence:
+            low_conf += 1
+        if bool(item.get("web_fallback_used", False)):
+            web_fallback += 1
+
+    return {
+        "total_items": len(items),
+        "slow_items": slow,
+        "low_confidence_items": low_conf,
+        "web_fallback_items": web_fallback,
+        "top_intents": intent_counts.most_common(10),
+        "answer_modes": mode_counts.most_common(10),
         "slow_threshold_seconds": settings.answer_review_slow_seconds,
         "low_confidence_threshold": settings.answer_review_low_confidence,
     }
